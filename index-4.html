@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUSH — 카테고리 가이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:    #0a0a0a;
+      --bg2:   #111;
+      --bg3:   #181818;
+      --line:  rgba(255,255,255,0.08);
+      --line2: rgba(255,255,255,0.2);
+      --w:     #ffffff;
+      --muted: rgba(255,255,255,0.38);
+      --r: 12px;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--w); font-family:'Noto Sans KR',sans-serif; overflow-x:hidden; }
+    ::-webkit-scrollbar { width:2px; }
+    ::-webkit-scrollbar-thumb { background:#333; border-radius:1px; }
+
+    /* TOPBAR */
+    .topbar {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 52px; height:56px;
+      background:rgba(10,10,10,0.95);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--line);
+    }
+    .logo {
+      font-size:14px; font-weight:600;
+      letter-spacing:0.4em; text-transform:uppercase;
+      color:var(--w); cursor:pointer; transition:opacity 0.2s;
+    }
+    .logo:hover { opacity:0.45; }
+    .bc { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); }
+    .bc .sep { opacity:0.3; font-size:9px; }
+    .bc .crumb { cursor:pointer; transition:color 0.2s; }
+    .bc .crumb:hover { color:var(--w); }
+    .bc .act { color:var(--w); font-weight:500; cursor:default; }
+
+    /* PAGES */
+    .page { display:none; padding-top:92px; padding-bottom:80px; min-height:100vh; }
+    .page.on { display:block; animation:up 0.38s cubic-bezier(0.22,1,0.36,1); }
+    @keyframes up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .wrap { width:min(1260px,calc(100% - 48px)); margin:0 auto; }
+
+    /* HERO */
+    .hero { padding:48px 0 52px; border-bottom:1px solid var(--line); margin-bottom:40px; }
+    .eyebrow { font-size:9px; font-weight:500; letter-spacing:0.35em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+    .eyebrow::before { content:''; width:18px; height:1px; background:rgba(255,255,255,0.25); }
+    h1 { font-size:clamp(32px,5vw,62px); font-weight:400; line-height:1.1; letter-spacing:-0.025em; margin-bottom:14px; }
+    .hero-sub { font-size:13px; font-weight:300; color:var(--muted); line-height:1.9; max-width:460px; margin-bottom:32px; }
+    .stats { display:flex; gap:28px; }
+    .sn { font-size:28px; font-weight:300; line-height:1; }
+    .sl { font-size:10px; font-weight:400; color:var(--muted); margin-top:4px; }
+
+    /* SECTION HEADER */
+    .sh { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; }
+    .sh h2 { font-size:17px; font-weight:500; letter-spacing:-0.01em; }
+    .sh span { font-size:9px; font-weight:500; color:var(--muted); letter-spacing:0.2em; text-transform:uppercase; }
+
+    /* GRIDS */
+    .g3  { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .g4  { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .g3b { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+
+    /* CARD */
+    .card { background:var(--bg2); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; cursor:pointer; transition:border-color 0.25s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+    .card:hover { border-color:rgba(255,255,255,0.22); transform:translateY(-5px); box-shadow:0 18px 44px rgba(0,0,0,0.75); }
+
+    /* image wrapper */
+    .iw { overflow:hidden; background:var(--bg3); }
+    .iw img { width:100%; height:100%; display:block; object-fit:contain; padding:6%; transition:transform 0.5s cubic-bezier(0.22,1,0.36,1); background:var(--bg3); }
+    .card:hover .iw img { transform:scale(1.04); }
+
+    /* aspect ratios */
+    .c1 .iw { aspect-ratio:4/3; }
+    .c2 .iw { aspect-ratio:1/1; }
+    .c3 .iw { aspect-ratio:1/1; }
+    .c3 { cursor:default; }
+    .c3:hover { transform:none; box-shadow:none; border-color:var(--line); }
+
+    /* body */
+    .bd { padding:14px 13px 13px; border-top:1px solid var(--line); }
+    .tag { font-size:9px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; display:block; }
+    .ttl { font-size:16px; font-weight:500; letter-spacing:-0.01em; margin-bottom:7px; line-height:1.25; }
+    .dsc { font-size:11px; font-weight:300; color:var(--muted); line-height:1.75; margin-bottom:11px; }
+    .chips { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:12px; }
+    .chip { font-size:9px; font-weight:400; padding:3px 8px; border:1px solid var(--line2); border-radius:100px; color:rgba(255,255,255,0.5); }
+    .cta { display:inline-flex; align-items:center; gap:4px; font-size:9px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.45); padding:6px 13px; border:1px solid var(--line2); border-radius:100px; transition:color 0.2s, border-color 0.2s, background 0.2s; }
+    .card:hover .cta { color:var(--w); border-color:rgba(255,255,255,0.55); background:rgba(255,255,255,0.05); }
+
+    /* sub/item cards */
+    .c2 .bd { padding:12px 11px; }
+    .c2 .ttl { font-size:14px; }
+    .c2 .dsc { font-size:11px; margin-bottom:9px; }
+    .c3 .bd { padding:11px 10px; }
+    .c3 .ttl { font-size:13px; margin-bottom:5px; }
+    .c3 .dsc { font-size:10px; margin-bottom:0; }
+
+    /* BANNER */
+    .banner { display:flex; align-items:center; gap:16px; padding:20px 24px; background:var(--bg2); border:1px solid var(--line); border-radius:var(--r); margin-bottom:28px; }
+    .bimg { width:64px; height:64px; border-radius:7px; object-fit:contain; padding:6px; flex-shrink:0; background:var(--bg3); }
+    .blbl { font-size:8px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+    .bttl { font-size:24px; font-weight:400; letter-spacing:-0.02em; line-height:1.1; margin-bottom:4px; }
+    .bdsc { font-size:12px; font-weight:300; color:var(--muted); line-height:1.7; }
+
+    /* BACK */
+    .back { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:400; color:var(--muted); margin-bottom:24px; cursor:pointer; background:none; border:none; padding:0; transition:color 0.2s; }
+    .back:hover { color:var(--w); }
+    .ar { transition:transform 0.2s; display:inline-block; }
+    .back:hover .ar { transform:translateX(-3px); }
+
+    .div { height:1px; background:var(--line); margin:0 0 28px; }
+
+    @media(max-width:1100px){ .g3,.g4{grid-template-columns:repeat(2,1fr)} .g3b{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:640px){ .topbar{padding:0 20px} .wrap{width:calc(100% - 32px)} h1{font-size:30px} .banner{flex-direction:column;text-align:center;padding:16px} .stats{gap:18px} }
+    @media(max-width:420px){ .g3,.g4,.g3b{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo" onclick="goHome()">LUSH</div>
+  <nav class="bc" id="bc"><span class="crumb act" onclick="goHome()">홈</span></nav>
+</header>
+
+<div class="page on" id="pg-home">
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">LUSH FRESH HANDMADE COSMETICS</div>
+      <h1>카테고리 가이드</h1>
+      <p class="hero-sub">러쉬의 전 제품군을 탐색하세요. 대분류·중분류·소분류 3단계 구조로 정리된 완전한 카테고리 가이드입니다.</p>
+      <div class="stats">
+        <div><div class="sn">6</div><div class="sl">대분류</div></div>
+        <div><div class="sn">28+</div><div class="sl">중분류</div></div>
+        <div><div class="sn">60+</div><div class="sl">소분류</div></div>
+      </div>
+    </section>
+    <div class="sh"><h2>카테고리</h2><span>6 CATEGORIES</span></div>
+    <div class="g3" id="mg"></div>
+  </div>
+</div>
+
+<div class="page" id="pg-cat">
+  <div class="wrap">
+    <button class="back" onclick="goHome()"><span class="ar">←</span> 카테고리로 돌아가기</button>
+    <div class="banner" id="cb"></div>
+    <div class="div"></div>
+    <div class="sh"><h2 id="ct">중분류</h2><span id="cc"></span></div>
+    <div class="g4" id="cg"></div>
+  </div>
+</div>
+
+<div class="page" id="pg-sub">
+  <div class="wrap">
+    <button class="back" id="sback"><span class="ar">←</span> <span id="sbl">중분류로 돌아가기</span></button>
+    <div class="banner" id="sb2"></div>
+    <div class="div"></div>
+    <div class="sh"><h2 id="st">소분류</h2><span id="sc"></span></div>
+    <div class="g3b" id="sg"></div>
+  </div>
+</div>
+
+<script>
+// ── Cloudinary helper ──────────────────────────────────
+const C = 'https://res.cloudinary.com/wearelush/images/';
+const P  = (v,id,e='png') => `${C}w_600,h_600,c_scale/f_auto,q_auto/v${v}/${id}/${id}.${e}`;
+const PF = (v,id,e='png') => `${C}w_600,h_600,c_fill,g_auto/f_auto,q_auto/v${v}/${id}/${id}.${e}`;
+
+// ── All product-only images ────────────────────────────
+const I = {
+  // Bath bombs
+  ghostie:    PF('1755523069','ghostie_bath_bomb_2023-1_1844994dac'),
+  lord:       PF('1755523538','lord_of_misrule_bath_bomb_2025'),
+  mad:        PF('1755523515','mad_scientist_bath_bomb_halloween_2025'),
+  punkin:     PF('1755523392','punkin_pumpkin_bath_bomb_2023-1_1847052af6'),
+  magician:   P ('1755523146','the_magician_bath_bomb_halloween_2025'),
+  witch_b:    P ('1755523317','witches_head_bath_bomb_halloween_ecom_2025'),
+  frank_b:    P ('1755523104','frankensteins_monster_bath_bomb_halloween_2025-'),
+  alchemist:  P ('1755523358','the_alchemist_bath_bomb_halloween_lush_2025'),
+  snow_bomb:  P ('1725359294','snow_fairy_bath_bomb_2023_15710dec2b'),
+  groovy:     P ('1725356502','groovy_snow_fairy_bath_bomb_2024'),
+  lights:     P ('1725359312','snow_fairy_lights_bath_bomb_2024'),
+  // Bubble bars
+  witch_bb:   P ('1755523338','witch_bubble_bar_halloween_2025'),
+  alien_bb:   P ('1755523038','alien_bubble_bar_halloween_2025'),
+  phantom_bb: P ('1755523445','phantom_foam_bubble_bar_halloween_2025'),
+  snow_wand:  P ('1725359392','snow_fairy_wand_bubble_blower_2023_157317be2f'),
+  snow_mtn:   P ('1725359422','snow_fairy_bubble_bar_cuttable_2024'),
+  snow_roll:  P ('1725359403','snow_fairy_roll_bubble_bar_2024'),
+  // Shower gel / soap
+  shower_gel: P ('1755523130','lord_of_misrule_shower_gel_2023-1_184551b06a'),
+  snow_gel:   P ('1725359325','snow_fairy_shower_gel_2023_15726023f7'),
+  glow_gel:   P ('1725356500','glow_fairy_shower_gel_2024'),
+  glitter_gel:P ('1725372197','snow_fairy_glitter_shower_gel_ecom_2024-1'),
+  snow_jelly: P ('1725359398','snow_fairy_shower_jelly_2024'),
+  snow_milk:  P ('1725359318','snow_fairy_milkshake_shower_gel_2024'),
+  soap:       P ('1755523053','demon_in_the_dark_soap_2023_1844384b18'),
+  snow_soap:  P ('1725359331','snow_fairy_soap_2023_157297bdad'),
+  bath_melt:  P ('1755523460','narcotick_bath_melt_halloween_2025'),
+  // Hair
+  shampoo:    PF('1737559216','rehab_salty_shampoo_pack_2023_16953067a5'),
+  superbalm:  P ('1737559140','superbalm_scalp_treatment_pack_ecom_2020'),
+  roots:      P ('1737559057','Roots_225g_sideview-2','jpg'),
+  super_milk: `${C}w_600,h_600,c_scale/f_auto,q_auto/v1737559265/super_milk_conditioning_hair_primer_sp_2020_16954a1ed9/super_milk_conditioning_hair_primer_sp_2020_16954a1ed9.png`,
+  snow_shamp: P ('1725359321','snow_fairy_shampoo_2024_'),
+  // Body care
+  snow_lotion:P ('1725359426','snow_fairy_body_lotion_2022_157112c7f0'),
+  // Face / lip
+  snow_lip:   P ('1725359409','snow_fairy_lip_jelly_2023_157207efe4'),
+  // Fragrance
+  perfume_bot:`${C}w_600,h_600,c_scale/f_auto,q_auto/v1725276967/vegan_leather_jacket_core_perfume_2024/vegan_leather_jacket_core_perfume_2024.jpg`,
+  // Lifestyle / gift
+  advent:    `${C}w_700,h_525,c_scale/f_auto,q_auto/v1724316081/advent_calendar_group_2024_06-1-1/advent_calendar_group_2024_06-1-1.jpg`,
+  collab:    `${C}w_700,h_525,c_scale/f_auto,q_auto/v1725368664/LUSH_x_beetlejuice_GROUPSHOT_2024-70_3X2/LUSH_x_beetlejuice_GROUPSHOT_2024-70_3X2.jpg`,
+  dia_de:    `${C}w_700,h_525,c_scale/f_auto,q_auto/v1725453970/bath_product_group_dia_de_los_muertos_2024_1/bath_product_group_dia_de_los_muertos_2024_1.jpg`,
+  diya:      `${C}w_700,h_525,c_scale/f_auto,q_auto/v1725278051/diya_bath_bomb_diwali_hero_image_2023_2/diya_bath_bomb_diwali_hero_image_2023_2.jpg`,
+  bath_group:`${C}w_700,h_525,c_scale/f_auto,q_auto/v1713258783/wbbd_predicted_best_sellers_2024/wbbd_predicted_best_sellers_2024.jpg`,
+};
+
+// ── Data ──────────────────────────────────────────────
+const D = [
+  { id:'body', n:'바디 케어', en:'Body Care',
+    d:'샤워부터 보습, 핸드·풋 케어까지 몸 전체를 위한 제품군',
+    p: I.snow_lotion,
+    subs:[
+      { id:'bw', n:'바디 워시', en:'Body Wash', d:'깨끗하고 촉촉한 세정으로 시작하는 샤워 루틴', p:I.snow_gel,
+        items:[
+          {n:'샤워젤',       en:'Shower Gel',     d:'거품이 풍부한 리퀴드 타입 바디 클렌저',   p:I.snow_gel},
+          {n:'크림 바디워시', en:'Cream Body Wash', d:'크리미한 질감으로 피부를 촉촉하게 세정', p:I.snow_milk},
+        ]},
+      { id:'bl', n:'바디 로션', en:'Body Lotion', d:'세정 후 수분을 깊이 가두는 보습 제품군', p:I.snow_lotion,
+        items:[
+          {n:'로션',    en:'Lotion',       d:'가볍고 빠르게 흡수되는 일상 보습 로션',   p:I.snow_lotion},
+          {n:'바디 버터',en:'Body Butter',  d:'고체 버터 질감의 깊은 보습 트리트먼트',  p:I.superbalm},
+          {n:'바디 밤', en:'Body Balm',    d:'건조한 부위를 집중 케어하는 밤 타입',     p:I.bath_melt},
+        ]},
+      { id:'bs', n:'바디 스크럽', en:'Body Scrub', d:'각질과 노폐물을 부드럽게 제거하는 스크럽', p:I.mad,
+        items:[
+          {n:'솔트 스크럽',en:'Salt Scrub',  d:'소금 결정으로 깊게 각질 제거',     p:I.mad},
+          {n:'슈가 스크럽',en:'Sugar Scrub', d:'천연 설탕으로 부드럽게 각질 제거', p:I.alchemist},
+        ]},
+      { id:'hc', n:'핸드 케어', en:'Hand Care', d:'손을 부드럽고 건강하게 유지해주는 케어 제품', p:I.roots,
+        items:[
+          {n:'핸드크림',  en:'Hand Cream',  d:'손의 수분과 영양을 집중 공급',    p:I.roots},
+          {n:'핸드 스크럽',en:'Hand Scrub', d:'거칠어진 손을 부드럽게 정돈',    p:I.superbalm},
+        ]},
+      { id:'fc', n:'풋 케어', en:'Foot Care', d:'지친 발을 편안하게 케어하는 전용 제품군', p:I.witch_b,
+        items:[
+          {n:'풋 크림',  en:'Foot Cream',  d:'발뒤꿈치와 발바닥 집중 보습',       p:I.ghostie},
+          {n:'풋 스크럽',en:'Foot Scrub',  d:'굳은살을 부드럽게 제거하는 스크럽', p:I.frank_b},
+          {n:'풋 마스크',en:'Foot Mask',   d:'발 전체를 감싸는 트리트먼트 마스크',p:I.lord},
+        ]},
+    ]},
+
+  { id:'hair', n:'헤어 케어', en:'Hair Care',
+    d:'샴푸, 컨디셔너, 스타일링과 두피 관리까지 아우르는 헤어 제품군',
+    p: I.shampoo,
+    subs:[
+      { id:'sh', n:'샴푸', en:'Shampoo', d:'두피와 모발을 깨끗하게 세정하는 샴푸', p:I.shampoo,
+        items:[
+          {n:'고체 샴푸',    en:'Solid Shampoo Bar',d:'패키징 없는 친환경 고체 샴푸 바',       p:I.shampoo},
+          {n:'액체 샴푸',    en:'Liquid Shampoo',   d:'전통적인 리퀴드 타입 샴푸',             p:I.snow_shamp},
+          {n:'두피 전용 샴푸',en:'Scalp Shampoo',   d:'두피 트러블을 집중 케어하는 전용 샴푸', p:I.roots},
+        ]},
+      { id:'co', n:'컨디셔너', en:'Conditioner', d:'모발에 윤기와 부드러움을 더해주는 컨디셔너', p:I.super_milk,
+        items:[
+          {n:'고체 컨디셔너',en:'Solid Conditioner',  d:'친환경 패키징의 고체 컨디셔너 바',  p:I.super_milk},
+          {n:'액체 컨디셔너',en:'Liquid Conditioner', d:'깊은 컨디셔닝을 위한 리퀴드 타입', p:I.superbalm},
+        ]},
+      { id:'tr', n:'트리트먼트', en:'Treatment', d:'손상된 모발을 집중적으로 케어하는 트리트먼트', p:I.superbalm,
+        items:[
+          {n:'헤어 마스크',en:'Hair Mask', d:'깊은 보습과 영양을 공급하는 헤어팩', p:I.superbalm},
+          {n:'헤어 오일',  en:'Hair Oil', d:'윤기와 광택을 더하는 헤어 오일',    p:I.super_milk},
+        ]},
+      { id:'st', n:'스타일링', en:'Styling', d:'원하는 헤어 스타일을 만들어주는 스타일링 제품', p:I.roots,
+        items:[
+          {n:'헤어 크림', en:'Hair Cream',    d:'가벼운 컨트롤과 윤기를 더하는 크림',   p:I.roots},
+          {n:'왁스',      en:'Hair Wax',      d:'강한 고정력의 헤어 왁스',             p:I.superbalm},
+          {n:'컬링 제품', en:'Curl Enhancer', d:'컬과 웨이브를 살려주는 스타일링',     p:I.super_milk},
+        ]},
+      { id:'sc', n:'두피 케어', en:'Scalp Care', d:'건강한 두피를 위한 집중 케어 제품군', p:I.roots,
+        items:[
+          {n:'두피 스크럽',en:'Scalp Scrub', d:'두피의 각질과 노폐물을 제거',           p:I.shampoo},
+          {n:'두피 팩',    en:'Scalp Pack',  d:'두피에 영양을 공급하는 트리트먼트 팩', p:I.roots},
+        ]},
+    ]},
+
+  { id:'frag', n:'향기 제품', en:'Fragrance',
+    d:'향수, 바디 스프레이, 고체 향수로 구성된 향 중심 제품군',
+    p: I.perfume_bot,
+    subs:[
+      { id:'pf', n:'향수', en:'Perfume', d:'오래 지속되는 풍부한 향기의 향수', p:I.perfume_bot,
+        items:[
+          {n:'액체 향수', en:'Liquid Perfume', d:'전통적인 스프레이 타입 향수',       p:I.perfume_bot},
+          {n:'고농축 향수',en:'Parfum',         d:'더욱 진하고 오래 지속되는 퍼퓸',   p:I.perfume_bot},
+        ]},
+      { id:'bsp', n:'바디 스프레이', en:'Body Spray', d:'가볍게 뿌려 일상에서 향기를 즐기는 제품', p:I.snow_gel,
+        items:[
+          {n:'데일리 향', en:'Daily Spray',       d:'매일 가볍게 사용하는 바디 미스트',     p:I.snow_gel},
+          {n:'지속형 향', en:'Long-lasting Spray',d:'오래 지속되는 고강도 바디 스프레이', p:I.glow_gel},
+        ]},
+      { id:'sp', n:'고체 향수', en:'Solid Perfume', d:'편리하게 휴대할 수 있는 고체 타입 향수', p:I.bath_melt,
+        items:[
+          {n:'휴대용 퍼퓸',en:'Portable Perfume',d:'언제 어디서나 간편하게 사용하는 고체 향수',p:I.bath_melt},
+        ]},
+    ]},
+
+  { id:'face', n:'페이스 케어', en:'Face Care',
+    d:'클렌징부터 보습, 마스크, 립 케어까지 얼굴 중심 스킨케어 제품군',
+    p: I.snow_lip,
+    subs:[
+      { id:'cl', n:'클렌저', en:'Cleanser', d:'피부의 메이크업과 노폐물을 세심하게 제거', p:I.superbalm,
+        items:[
+          {n:'클렌징 밤',en:'Cleansing Balm',d:'메이크업을 부드럽게 녹이는 밤 타입',  p:I.superbalm},
+          {n:'클렌징 롤',en:'Cleansing Roll',d:'독특한 롤 형태의 클렌징 제품',        p:I.bath_melt},
+          {n:'폼 클렌저',en:'Foam Cleanser', d:'풍성한 거품으로 모공 속 세정',       p:I.super_milk},
+        ]},
+      { id:'tn', n:'토너', en:'Toner', d:'세정 후 피부 결을 정돈하는 토너 제품군', p:I.glow_gel,
+        items:[
+          {n:'토너 워터',en:'Toner Water',d:'피부 pH 밸런스를 맞추는 수분 토너',  p:I.glow_gel},
+          {n:'미스트',   en:'Mist',       d:'언제든 수분을 보충하는 페이셜 미스트',p:I.glitter_gel},
+        ]},
+      { id:'mo', n:'보습', en:'Moisturizer', d:'피부 깊숙이 수분을 채워주는 보습 제품군', p:I.snow_lotion,
+        items:[
+          {n:'크림',en:'Face Cream',d:'풍부한 보습력의 페이셜 크림',       p:I.snow_lotion},
+          {n:'세럼',en:'Serum',     d:'고농축 성분의 에센스 세럼',         p:I.roots},
+          {n:'오일',en:'Face Oil',  d:'피부 장벽을 강화하는 페이셜 오일', p:I.super_milk},
+        ]},
+      { id:'mk', n:'마스크', en:'Mask', d:'주 1-2회 집중 케어를 위한 페이스 마스크', p:I.magician,
+        items:[
+          {n:'프레쉬 마스크',en:'Fresh Mask', d:'신선한 재료로 만든 즉효성 마스크',      p:I.magician},
+          {n:'클레이 마스크',en:'Clay Mask',  d:'모공 속 피지를 흡착하는 클레이 마스크',p:I.superbalm},
+        ]},
+      { id:'lp', n:'립 케어', en:'Lip Care', d:'촉촉하고 건강한 입술을 위한 립 케어', p:I.snow_lip,
+        items:[
+          {n:'립밤',    en:'Lip Balm',  d:'건조함을 막아주는 일상 립 보습제',  p:I.snow_lip},
+          {n:'립 스크럽',en:'Lip Scrub',d:'각질을 제거하고 입술을 부드럽게',  p:I.alchemist},
+        ]},
+    ]},
+
+  { id:'bath', n:'배스 & 샤워', en:'Bath & Shower',
+    d:'러쉬를 대표하는 입욕·샤워 카테고리',
+    p: I.ghostie,
+    subs:[
+      { id:'bb', n:'배쓰밤', en:'Bath Bomb', d:'입욕 시 폭발적인 색과 향을 만들어내는 러쉬의 아이콘', p:I.ghostie,
+        items:[
+          {n:'컬러형',en:'Colour Bath Bomb',    d:'욕조를 화려하게 물들이는 컬러 배쓰밤', p:I.lord},
+          {n:'기능형',en:'Functional Bath Bomb',d:'피부 케어 효과를 더한 기능성 배쓰밤', p:I.ghostie},
+        ]},
+      { id:'bub', n:'버블 바', en:'Bubble Bar', d:'욕조를 풍성한 버블로 채워주는 버블 바', p:I.witch_bb,
+        items:[
+          {n:'고체 거품 입욕제',en:'Solid Bubble Bar',  d:'고체 형태로 쉽게 사용하는 버블 바',  p:I.witch_bb},
+          {n:'조각형 버블 바', en:'Crumble Bubble Bar', d:'조각내어 사용하는 대용량 버블 바', p:I.alien_bb},
+        ]},
+      { id:'sg2', n:'샤워젤', en:'Shower Gel', d:'상쾌한 향과 풍부한 거품의 샤워 젤', p:I.shower_gel,
+        items:[
+          {n:'액체 젤',  en:'Liquid Shower Gel',d:'가볍게 흐르는 리퀴드 타입 샤워 젤', p:I.shower_gel},
+          {n:'크림형 젤',en:'Cream Shower Gel', d:'크리미한 질감의 보습 샤워 젤',      p:I.snow_milk},
+        ]},
+      { id:'so', n:'비누', en:'Soap', d:'천연 재료로 만든 핸드메이드 비누', p:I.soap,
+        items:[
+          {n:'고체 비누',  en:'Solid Soap', d:'전통적인 고체 형태의 핸드메이드 비누',      p:I.soap},
+          {n:'슬라이스 비누',en:'Slice Soap',d:'원하는 양만 잘라 사용하는 슬라이스 비누', p:I.snow_soap},
+        ]},
+      { id:'ss', n:'샤워 스크럽', en:'Shower Scrub', d:'샤워 중 각질을 제거하는 스크럽 제품', p:I.mad,
+        items:[
+          {n:'바디 폴리셔',en:'Body Polisher',d:'피부를 매끄럽게 다듬는 폴리셔',    p:I.punkin},
+          {n:'젤 스크럽',  en:'Gel Scrub',   d:'젤 베이스의 가벼운 샤워 스크럽', p:I.magician},
+        ]},
+    ]},
+
+  { id:'life', n:'라이프스타일', en:'Lifestyle',
+    d:'기프트와 액세서리, 한정판으로 확장된 라이프스타일 제품군',
+    p: I.advent,
+    subs:[
+      { id:'gs', n:'기프트 세트', en:'Gift Set', d:'소중한 사람에게 선물하는 러쉬 기프트 컬렉션', p:I.advent,
+        items:[
+          {n:'시즌 세트',en:'Seasonal Gift Set',d:'계절별로 구성된 특별한 기프트 세트', p:I.advent},
+          {n:'테마 세트', en:'Theme Gift Set',  d:'테마별로 큐레이션된 기프트 컬렉션', p:I.dia_de},
+        ]},
+      { id:'ac', n:'액세서리', en:'Accessories', d:'지속 가능한 러쉬 생활을 위한 액세서리', p:I.collab,
+        items:[
+          {n:'재사용 용기',en:'Reusable Container',d:'환경을 위한 리필 가능한 용기',           p:I.collab},
+          {n:'보관 케이스',en:'Storage Case',      d:'제품을 안전하게 보관하는 전용 케이스', p:I.bath_group},
+        ]},
+      { id:'lt', n:'한정판', en:'Limited Edition', d:'특별한 날을 위한 한정 컬렉션', p:I.diya,
+        items:[
+          {n:'시즌 한정', en:'Seasonal Limited',d:'시즌마다 출시되는 한정 제품',             p:I.diya},
+          {n:'콜라보 제품',en:'Collaboration',  d:'브랜드 협업으로 탄생한 특별 에디션', p:I.collab},
+        ]},
+    ]},
+];
+
+// ── Render ─────────────────────────────────────────────
+function renderMain() {
+  document.getElementById('mg').innerHTML = D.map(c => `
+    <article class="card c1" onclick="openCat('${c.id}')">
+      <div class="iw"><img src="${c.p}" alt="${c.n}" loading="lazy"/></div>
+      <div class="bd">
+        <span class="tag">${c.en}</span>
+        <div class="ttl">${c.n}</div>
+        <p class="dsc">${c.d}</p>
+        <div class="chips">${c.subs.map(s=>`<span class="chip">${s.n}</span>`).join('')}</div>
+        <div class="cta">자세히 보기 →</div>
+      </div>
+    </article>`).join('');
+}
+
+function renderCat(id) {
+  const c = D.find(x=>x.id===id);
+  document.getElementById('cb').innerHTML = `
+    <img class="bimg" src="${c.p}" alt="${c.n}"/>
+    <div>
+      <div class="blbl">LUSH · ${c.en}</div>
+      <div class="bttl">${c.n}</div>
+      <div class="bdsc">${c.d}</div>
+    </div>`;
+  document.getElementById('ct').textContent = `${c.n} 중분류`;
+  document.getElementById('cc').textContent = `${c.subs.length} SUBCATEGORIES`;
+  document.getElementById('cg').innerHTML = c.subs.map(s => `
+    <article class="card c2" onclick="openSub('${c.id}','${s.id}')">
+      <div class="iw"><img src="${s.p}" alt="${s.n}" loading="lazy"/></div>
+      <div class="bd">
+        <span class="tag">${s.en}</span>
+        <div class="ttl">${s.n}</div>
+        <p class="dsc">${s.d}</p>
+        <div class="chips">${s.items.map(i=>`<span class="chip">${i.n}</span>`).join('')}</div>
+        <div class="cta">소분류 보기 →</div>
+      </div>
+    </article>`).join('');
+}
+
+function renderSub(cid, sid) {
+  const c = D.find(x=>x.id===cid);
+  const s = c.subs.find(x=>x.id===sid);
+  document.getElementById('sbl').textContent = `${c.n}으로 돌아가기`;
+  document.getElementById('sback').onclick = () => openCat(cid);
+  document.getElementById('sb2').innerHTML = `
+    <img class="bimg" src="${s.p}" alt="${s.n}"/>
+    <div>
+      <div class="blbl">${c.n} · ${s.en}</div>
+      <div class="bttl">${s.n}</div>
+      <div class="bdsc">${s.d}</div>
+    </div>`;
+  document.getElementById('st').textContent = `${s.n} 소분류`;
+  document.getElementById('sc').textContent = `${s.items.length} ITEMS`;
+  document.getElementById('sg').innerHTML = s.items.map(i => `
+    <article class="card c3">
+      <div class="iw"><img src="${i.p}" alt="${i.n}" loading="lazy"/></div>
+      <div class="bd">
+        <span class="tag">${i.en}</span>
+        <div class="ttl">${i.n}</div>
+        <p class="dsc">${i.d}</p>
+      </div>
+    </article>`).join('');
+}
+
+// ── Nav ────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setBC(parts) {
+  document.getElementById('bc').innerHTML = parts.map((p,i) => {
+    const last = i===parts.length-1;
+    return `${i>0?'<span class="sep">/</span>':''}<span class="crumb${last?' act':''}" onclick="${p.f||''}">${p.t}</span>`;
+  }).join('');
+}
+function goHome() { show('pg-home'); setBC([{t:'홈'}]); }
+function openCat(id) {
+  const c=D.find(x=>x.id===id);
+  renderCat(id); show('pg-cat');
+  setBC([{t:'홈',f:'goHome()'},{t:c.n}]);
+}
+function openSub(cid, sid) {
+  const c=D.find(x=>x.id===cid), s=c.subs.find(x=>x.id===sid);
+  renderSub(cid,sid); show('pg-sub');
+  setBC([{t:'홈',f:'goHome()'},{t:c.n,f:`openCat('${cid}')`},{t:s.n}]);
+}
+
+renderMain();
+</script>
+</body>
+</html>
